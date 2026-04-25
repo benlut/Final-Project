@@ -100,7 +100,9 @@ def genWiresTarget():
     # Create your own logic of making a target number for wires
     # TODO
     return [True, False, True, False, True] # Since we cant use depend on colors, 1st slot needs wire, 2nd empty, 3rd wire, 4th empty, 5th wire. - B
-Wire_Clue = "Odd numbers need wires." # Odd SLOTS only need wires. Even doesnt. (1,3,5) -B
+
+WIRE_CLUE = "Odd numbers need wires." # Odd SLOTS only need wires. Even doesnt. (1,3,5) -B
+
 # generates the keypad combination from a keyword and rotation key
 def genKeypadTarget():
     # Create your own logic of making a keypad combination number if needed
