@@ -94,12 +94,13 @@ def genSerial():
 def genTogglesTarget():
     # Create your own logic of making a target number for toggles
     # TODO
-    return 0b1101
+    return [True, True, False, True] # Switch On On off On <- Given from hint solving binary problem. 1 = On, 0 = Off - B
 
 def genWiresTarget():
     # Create your own logic of making a target number for wires
     # TODO
-    return 0b10101 # Red, Yelw, Green
+    return [True, False, True, False, True] # Since we cant use depend on colors, 1st slot needs wire, 2nd empty, 3rd wire, 4th empty, 5th wire. - B
+Wire_Clue = "Odd numbers need wires." # Odd SLOTS only need wires. Even doesnt. (1,3,5) -B
 # generates the keypad combination from a keyword and rotation key
 def genKeypadTarget():
     # Create your own logic of making a keypad combination number if needed
@@ -108,8 +109,6 @@ def genKeypadTarget():
 
 # generate the color of the pushbutton (which determines how to defuse the phase)
 button_color = choice(["R", "G", "B"])
-# Wire_Colors = ["Red", "Blue", "Yellow", ("Etc other colors")]
-# Wire_Clue = "Connect: Red, Yellow, Green" Clue given after keypad.
 
 def genButtonTarget():
     # TODO
