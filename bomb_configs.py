@@ -94,20 +94,22 @@ def genSerial():
 def genTogglesTarget():
     # Create your own logic of making a target number for toggles
     # TODO
-    return 20
+    return 0b1101
 
 def genWiresTarget():
     # Create your own logic of making a target number for wires
     # TODO
-    return 5
+    return 0b10101 # Red, Yelw, Green
 # generates the keypad combination from a keyword and rotation key
 def genKeypadTarget():
     # Create your own logic of making a keypad combination number if needed
     # TODO
-    return "26863"
+    return "2934" # Given number from clue -> Keypad
 
 # generate the color of the pushbutton (which determines how to defuse the phase)
 button_color = choice(["R", "G", "B"])
+# Wire_Colors = ["Red", "Blue", "Yellow", ("Etc other colors")]
+# Wire_Clue = "Connect: Red, Yellow, Green" Clue given after keypad.
 
 def genButtonTarget():
     # TODO
