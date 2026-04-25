@@ -193,6 +193,8 @@ class Keypad(PhaseThread):
         super().__init__(name, component, target)
         # the default value is an empty string
         self._value = ""
+        # Add clue to store the wire clue once keypad has been defused - B
+        self.clue = ""
 
     # runs the thread
     def run(self):
@@ -212,6 +214,7 @@ class Keypad(PhaseThread):
                 self._value += str(key)
                 # the combination is correct -> phase defused
                 if (self._value == self._target):
+                    self._clue = Wire_Clue # Reveals the clue: Red, Yellow, Green (Can change need to see wire colors) - B
                     self._defused = True
                 # the combination is incorrect -> phase failed (strike)
                 elif (self._value != self._target[0:len(self._value)]):
@@ -221,7 +224,7 @@ class Keypad(PhaseThread):
     # returns the keypad combination as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED"
+            return f"DEFUSED | Wire clue: {self._clue}" # Displays the wire clue on screen after keypad has been defused - B
         else:
             return self._value
 
@@ -229,6 +232,7 @@ class Keypad(PhaseThread):
 class Wires(PhaseThread):
     def __init__(self, component, target, name="Wires"):
         super().__init__(name, component, target)
+        
 
     # runs the thread
     def run(self):
