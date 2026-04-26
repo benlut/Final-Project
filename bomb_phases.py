@@ -194,7 +194,7 @@ class Keypad(PhaseThread):
         # the default value is an empty string
         self._value = ""
         # Add clue to store the wire clue once keypad has been defused - B
-        self.clue = ""
+        self._clue = ""
 
     # runs the thread
     def run(self):
@@ -214,7 +214,7 @@ class Keypad(PhaseThread):
                 self._value += str(key)
                 # the combination is correct -> phase defused
                 if (self._value == self._target):
-                    self._clue = Wire_Clue # Reveals the clue: Red, Yellow, Green (Can change need to see wire colors) - B
+                    self._clue = WIRE_CLUE # Reveal wire clue and defuse - B
                     self._defused = True
                 # the combination is incorrect -> phase failed (strike)
                 elif (self._value != self._target[0:len(self._value)]):
@@ -224,7 +224,7 @@ class Keypad(PhaseThread):
     # returns the keypad combination as a string
     def __str__(self):
         if (self._defused):
-            return f"DEFUSED | Wire clue: {self._clue}" # Displays the wire clue on screen after keypad has been defused - B
+            return f"DEFUSED | Wire clue: {self._clue}" # show wire clue on lcd after keypad is solved - B
         else:
             return self._value
 
@@ -236,16 +236,34 @@ class Wires(PhaseThread):
 
     # runs the thread
     def run(self):
-        # TODO
-        pass
+        self._running = True
+        while (self._running):
+            # read each wire slot as T or F (wire in or empty) - B
+            current = [pin.value for pin in self._component]
+            # correct slots filled -> defused - B
+            if (current == self._target):
+                self._defused = True
+            # Theres things plugged in but wrong - B
+            elif (any(current) and current != self._target):
+                self._failed = True
+
+            sleep(0.1)
 
     # returns the jumper wires state as a string
     def __str__(self):
         if (self._defused):
             return "DEFUSED"
         else:
-            # TODO
-            pass
+            # shows slot status on lcd. Slot 1: in | Slot 2: out - B
+            current = [pin.value for pin in self._component] if self._component else [False]*5
+            display = ""
+            for i in range(5):
+                if current[i]:
+                    display += f"[Slot {i+1}: IN] "
+                else:
+                    display += f"[Slot {i+1}: OUT] "
+            return display
+            
 
 # the pushbutton phase
 class Button(PhaseThread):
