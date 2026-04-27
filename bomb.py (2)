@@ -1,0 +1,81 @@
+#################################
+# CSC 102 Defuse the Bomb Project
+# Main program
+#################################
+from bomb_configs import *
+from bomb_phases import *
+from tkinter import *
+
+booted = False 
+
+def bootup():
+    global booted
+    gui._lscroll["text"] = boot_text
+    gui.setup()
+    if (RPi):
+        timer.start()
+        keypad.start()
+        wires.start()
+    booted = True
+    gui.display_clue_image("clue1.png") 
+
+def setup_phases():
+    global timer, keypad, wires, toggles
+    if (RPi):
+        timer = Timer(component_7seg, COUNTDOWN)
+        keypad = Keypad(component_keypad, keypad_target)
+        wires = Wires("Wires", component_wires, wires_target)
+        toggles = Toggles("Toggles", component_toggles, toggles_target)
+        toggles.start()
+
+def check_phases():
+    global active_phases, booted
+    
+    if not toggles._defused:
+        gui._lscroll.config(text=" [ SYSTEM OFFLINE ]\n FLIP BREAKER SWITCHES")
+        gui.after(100, check_phases)
+        return
+
+    if not booted: bootup()
+
+    if (timer._running):
+        gui._ltimer["text"] = f"Time left: {timer}"
+    else:
+        gui.after(100, gui.conclusion, False)
+        return
+
+    if (keypad._running):
+        gui._lkeypad["text"] = f"Keypad: {keypad}"
+        if (keypad._defused):
+            keypad._running = False
+            active_phases -= 1
+        elif (keypad._failed):
+            strike(); keypad._failed = False; keypad._value = ""
+
+    if (wires._running):
+        gui._lwires["text"] = f"Wires: {wires}"
+        if (wires._defused):
+            wires._running = False
+            active_phases -= 1
+        elif (wires._failed):
+            strike(); wires._failed = False
+
+    if (active_phases == 0):
+        gui.after(100, gui.conclusion, True)
+        return
+
+    gui.after(100, check_phases)
+
+def strike():
+    global strikes_left
+    strikes_left -= 1
+    gui._lstrikes["text"] = f"Strikes: {strikes_left}"
+
+# START
+window = Tk()
+gui = Lcd(window)
+strikes_left = NUM_STRIKES
+active_phases = NUM_PHASES
+if (RPi): setup_phases()
+gui.after(100, check_phases)
+window.mainloop()
