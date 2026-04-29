@@ -5,12 +5,12 @@
 #################################
 
 # constants
-DEBUG = False         # debug mode?
-RPi = True            # is this running on the RPi?
-SHOW_BUTTONS = False  # show the Pause and Quit buttons on the main LCD GUI?
-COUNTDOWN = 300       # the initial bomb countdown value (seconds)
-NUM_STRIKES = 5       # the total strikes allowed before the bomb "explodes"
-NUM_PHASES = 4        # the total number of initial active bomb phases
+DEBUG = False
+RPi = True
+SHOW_BUTTONS = False
+COUNTDOWN = 300
+NUM_STRIKES = 5
+NUM_PHASES = 4
 
 # imports
 from random import randint, shuffle, choice
@@ -21,9 +21,6 @@ if (RPi):
     from digitalio import DigitalInOut, Direction, Pull
     from adafruit_matrixkeypad import Matrix_Keypad
 
-#################################
-# setup the electronic components
-#################################
 # 7-segment display
 if (RPi):
     i2c = board.I2C()
@@ -61,46 +58,26 @@ if (RPi):
         pin.direction = Direction.INPUT
         pin.pull = Pull.DOWN
 
-###########
-# functions to generate targets
-###########
-def genSerial():
-    return "B026DES"
+def genSerial(): return "B026DES"
+def genTogglesTarget(): return [True, True, False, True] 
+def genWiresTarget(): return [True, False, True, False, True] 
+WIRE_CLUE = "Odd numbers need wires."
+def genKeypadTarget(): return "2934"
 
-def genTogglesTarget():
-    # Switch On On off On <- Given from hint solving binary problem. 1 = On, 0 = Off - B
-    return [True, True, False, True] 
-
-def genWiresTarget():
-    # 1st slot needs wire, 2nd empty, 3rd wire, 4th empty, 5th wire. - B
-    return [True, False, True, False, True] 
-
-WIRE_CLUE = "Odd numbers need wires." # Odd SLOTS only need wires. Even doesnt. (1,3,5) - B
-
-def genKeypadTarget():
-    return "2934" # Given number from clue -> Keypad
-
+serial = genSerial()
+toggles_target = genTogglesTarget()
+wires_target = genWiresTarget()
+keypad_target = genKeypadTarget()
 button_color = choice(["R", "G", "B"])
 
 def genButtonTarget():
     global button_color
     b_target = None
-    # G is the first numeric digit in the serial number
     if (button_color == "G"):
         b_target = [ n for n in serial if n.isdigit() ][0]
-    # B is the last numeric digit in the serial number
     elif (button_color == "B"):
         b_target = [ n for n in serial if n.isdigit() ][-1]
     return b_target
 
-###############################
-serial = genSerial()
-toggles_target = genTogglesTarget()
-wires_target = genWiresTarget()
-keypad_target = genKeypadTarget()
 button_target = genButtonTarget()
-
-# set the bomb's LCD bootup text
-boot_text = f"--- SYSTEM ONLINE ---\n"\
-            f"Serial number: {serial}\n"\
-            f"POWER RESTORED."
+boot_text = f"--- SYSTEM ONLINE ---\nSerial number: {serial}\nPOWER RESTORED."
