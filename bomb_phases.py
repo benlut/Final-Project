@@ -11,7 +11,6 @@ from threading import Thread
 from time import sleep
 import os
 import sys
-from PIL import Image, ImageTk 
 
 #########
 # classes
@@ -32,15 +31,6 @@ class Lcd(Frame):
         self._lscroll.grid(row=0, column=0, columnspan=3, sticky=W)
         self.pack(fill=BOTH, expand=True)
 
-    def display_clue_image(self, image_path):
-        try:
-            img = Image.open(image_path)
-            img = img.resize((500, 350)) 
-            self._photo = ImageTk.PhotoImage(img)
-            self._lscroll.config(image=self._photo, text="") 
-        except:
-            self._lscroll.config(text="[ ERROR: CLUE PHOTO MISSING ]")
-
     def setup(self):
         self._ltimer = Label(self, bg="black", fg="#00ff00", font=("Courier New", 18), text="Time left: ")
         self._ltimer.grid(row=1, column=0, columnspan=3, sticky=W)
@@ -59,7 +49,7 @@ class Lcd(Frame):
     def setButton(self, button): self._button = button
 
     def conclusion(self, success=False):
-        self._lscroll.config(image="", text="")
+        self._lscroll.config(text="DEFUSED" if success else "EXPLODED")
         self._ltimer.destroy()
         self._lkeypad.destroy()
         self._lwires.destroy()
@@ -67,10 +57,8 @@ class Lcd(Frame):
         self._ltoggles.destroy()
         self._lstrikes.destroy()
         
-        # the retry button
         self._bretry = tkinter.Button(self, bg="red", fg="white", font=("Courier New", 18), text="Retry", command=self.retry)
         self._bretry.grid(row=1, column=0, pady=40)
-        # the quit button
         self._bquit = tkinter.Button(self, bg="red", fg="white", font=("Courier New", 18), text="Quit", command=self.quit)
         self._bquit.grid(row=1, column=2, pady=40)
 
@@ -129,18 +117,15 @@ class Keypad(PhaseThread):
             sleep(0.1)
 
     def __str__(self):
-        if (self._defused): return f"DEFUSED | Wire clue: {WIRE_CLUE}" # show wire clue after solved - B
+        if (self._defused): return f"DEFUSED | Wire clue: {WIRE_CLUE}" 
         return self._value
 
 class Wires(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
-            # read each wire slot as T or F (wire in or empty) - B
             current = [pin.value for pin in self._component]
-            # correct slots filled -> defused - B
             if (current == self._target): self._defused = True
-            # Theres things plugged in but wrong - B
             elif (any(current) and current != self._target and sum(current) >= sum(self._target)):
                 self._failed = True
             sleep(0.1)
@@ -150,7 +135,7 @@ class Wires(PhaseThread):
         current = [pin.value for pin in self._component]
         display = ""
         for i in range(5):
-            display += f"[Slot {i+1}: {'IN' if current[i] else 'OUT'}] "
+            display += f"[S{i+1}:{'IN' if current[i] else 'OUT'}] "
         return display
 
 class Button(PhaseThread):
@@ -182,7 +167,6 @@ class Toggles(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
-            # Check toggle status - B
             self._value = [pin.value for pin in self._component]
             if (self._value == self._target):
                 self._defused = True
