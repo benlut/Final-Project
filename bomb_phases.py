@@ -145,7 +145,7 @@ class Button(PhaseThread):
         self._timer = timer
 
 class Button(PhaseThread):
-    # This must have exactly these 6 items (self + 5 from bomb.py)
+    # This MUST have these exact 6 items: self, component, rgb, target, color, timer
     def __init__(self, component, rgb, target, color, timer):
         super().__init__("Button", component, target)
         self._rgb = rgb
@@ -154,7 +154,7 @@ class Button(PhaseThread):
 
     def run(self):
         self._running = True
-        # Set colors (False is ON for common cathode/RPi pins usually)
+        # Set the LED color
         self._rgb[0].value = False if self._color == "R" else True
         self._rgb[1].value = False if self._color == "G" else True
         self._rgb[2].value = False if self._color == "B" else True
@@ -165,7 +165,7 @@ class Button(PhaseThread):
                 pressed = True
             else:
                 if (pressed):
-                    # Check if target digit is in the timer seconds
+                    # Check release timing
                     if (not self._target or str(self._target) in self._timer._sec):
                         self._defused = True
                     else: 
