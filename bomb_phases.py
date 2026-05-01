@@ -138,13 +138,6 @@ class Wires(PhaseThread):
         return display
 
 class Button(PhaseThread):
-    def __init__(self, component, rgb, target, color, timer):
-        super().__init__("Button", component, target)
-        self._rgb = rgb
-        self._color = color
-        self._timer = timer
-
-class Button(PhaseThread):
     # This MUST have these exact 6 items: self, component, rgb, target, color, timer
     def __init__(self, component, rgb, target, color, timer):
         super().__init__("Button", component, target)
