@@ -6,7 +6,7 @@
 
 from bomb_configs import *
 from bomb_phases import *
-from tkinter import *
+#from tkinter import * 
 
 booted = False 
 
