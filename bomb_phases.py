@@ -229,19 +229,42 @@ class Keypad(PhaseThread):
 class Wires(PhaseThread):
     def __init__(self, component, target, name="Wires"):
         super().__init__(name, component, target)
+        # track the previous wire state to detect changes
+        self._prev_value = None
 
     # runs the thread
     def run(self):
-        # TODO
-        pass
+        self._running = True
+        while (self._running):
+            # read each wire pin and build a bitmask
+            # a wire that is connected = 1, disconnected (cut) = 0
+            value = 0
+            for pin in self._component:
+                value = (value << 1) | (1 if pin.value else 0)
+            self._value = value
+
+            # only check for failure if the state has changed
+            if (self._value != self._prev_value):
+                # correct wires connected -> phase defused
+                if (self._value == self._target):
+                    self._defused = True
+                # wrong combination -> strike
+                elif (self._prev_value is not None):
+                    self._failed = True
+                self._prev_value = self._value
+
+            sleep(0.1)
 
     # returns the jumper wires state as a string
     def __str__(self):
         if (self._defused):
             return "DEFUSED"
         else:
-            # TODO
-            pass
+            # show the current wire states as a binary string (1=connected, 0=cut)
+            if (self._value is not None):
+                return format(self._value, '05b')
+            else:
+                return "00000"
 
 # the pushbutton phase
 class Button(PhaseThread):
@@ -301,13 +324,28 @@ class Toggles(PhaseThread):
 
     # runs the thread
     def run(self):
-        # TODO
-        pass
+        self._running = True
+        while (self._running):
+            # read each toggle pin and build a binary number
+            # ON (1) = switch is up, OFF (0) = switch is down
+            value = 0
+            for pin in self._component:
+                value = (value << 1) | (1 if pin.value else 0)
+            self._value = value
+
+            # correct combination -> phase defused
+            if (self._value == self._target):
+                self._defused = True
+
+            sleep(0.1)
 
     # returns the toggle switches state as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED"
+            return "DEFUSED - Go to ______ to find next clue"
         else:
-            # TODO
-            pass
+            # show current switch states as a 4-digit binary string
+            if (self._value is not None):
+                return format(self._value, '04b')
+            else:
+                return "0000"
