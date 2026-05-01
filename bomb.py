@@ -21,8 +21,7 @@ def bootup(n=0):
     if (RPi):
         setup_phases()
         check_phases()
-    # if we're animating
-   
+
 # sets up the phase threads
 def setup_phases():
     global timer, keypad, wires, button, toggles
@@ -112,7 +111,7 @@ def check_phases():
         if (toggles._defused):
             toggles._running = False
             active_phases -= 1
-        # the phase has failed -> strike
+        # the phase has failed -> strike (toggles don't fail, just keep trying)
         elif (toggles._failed):
             strike()
             # reset the toggles
