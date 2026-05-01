@@ -236,7 +236,6 @@ class Wires(PhaseThread):
         # track the previous wire state to detect changes
         self._prev_value = None
         self.toggles = toggles
-        print("toggles - ", toggles)
 
     # runs the thread
     def run(self):
