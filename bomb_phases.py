@@ -231,10 +231,12 @@ class Keypad(PhaseThread):
 
 # the jumper wires phase
 class Wires(PhaseThread):
-    def __init__(self, component, target, name="Wires"):
+    def __init__(self, component, target, toggles, name="Wires"):
         super().__init__(name, component, target)
         # track the previous wire state to detect changes
         self._prev_value = None
+        self.toggles = toggles
+        print("toggles - ", toggles)
 
     # runs the thread
     def run(self):
