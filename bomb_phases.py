@@ -173,7 +173,7 @@ class Toggles(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
-            self._value = [pin.value for pin in self._component]
+            self._value = [pin for pin in self._component]
             if (self._value == self._target):
                 self._defused = True
             sleep(0.1)
