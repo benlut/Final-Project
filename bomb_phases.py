@@ -244,7 +244,7 @@ class Wires(PhaseThread):
         while (self._running):
             print(self._value)
             # wait until toggles are defused first
-            if (not toggles._defused):
+            if (not self.toggles._defused):
                 sleep(0.1)
                 continue
             # read each wire pin and build a bitmask
