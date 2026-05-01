@@ -158,18 +158,18 @@ class Timer(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
-            if (not self._paused):
-                # update the timer and display its value on the 7-segment display
-                self._update()
-                self._component.print(str(self))
-                # wait 1s (default) and continue
-                sleep(self._interval)
-                # the timer has expired -> phase failed (explode)
-                if (self._value == 0):
-                    self._running = False
-                self._value -= 1
-            else:
-                sleep(0.1)
+            value = 0
+            for pin in self._component:
+                value = (value << 1) | (1 if pin.value else 0)
+            self._value = value
+
+            # ADD THIS LINE temporarily to debug
+            print(f"Toggles value: {format(value, '04b')} = {value}, Target: {format(self._target, '04b')} = {self._target}")
+
+            if (self._value == self._target):
+                self._defused = True
+
+            sleep(0.1)
 
     # updates the timer (only internally called)
     def _update(self):
