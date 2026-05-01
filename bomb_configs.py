@@ -92,9 +92,8 @@ def genSerial():
     return "B026DES"
 
 def genTogglesTarget():
-    # Create your own logic of making a target number for toggles
-    # TODO
-    return 20
+    return 0b1101  # = 13 in decimal
+    
 
 def genWiresTarget():
     # Create your own logic of making a target number for wires
