@@ -149,26 +149,26 @@ class Timer(PhaseThread):
         # is the timer paused?
         self._paused = False
         # initialize the timer's minutes/seconds representation
-        self._min = ""
-        self._sec = ""
+        self._min = "10"
+        self._sec = "00"
         # by default, each tick is 1 second
         self._interval = 1
 
     # runs the thread
     def run(self):
-        self._running = True
-        while (self._running):
-            value = 0
-            for pin in self._component:
-                value = (value << 1) | (1 if pin.value else 0)
-            self._value = value
-
-            # ADD THIS LINE temporarily to debug
-            print(f"Toggles value: {format(value, '04b')} = {value}, Target: {format(self._target, '04b')} = {self._target}")
-
-            if (self._value == self._target):
-                self._defused = True
-
+    self._running = True
+    while (self._running):
+        if (not self._paused):
+            self._update()
+            try:
+                self._component.print(str(self))
+            except:
+                pass  # ignore 7-segment errors
+            sleep(self._interval)
+            if (self._value == 0):
+                self._running = False
+            self._value -= 1
+        else:
             sleep(0.1)
 
     # updates the timer (only internally called)
