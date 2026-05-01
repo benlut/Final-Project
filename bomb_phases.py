@@ -198,6 +198,10 @@ class Keypad(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
+            # wait until wires are defused first
+            if (not wires._defused):
+                sleep(0.1)
+                continue
             # process keys when keypad key(s) are pressed
             if (self._component.pressed_keys):
                 # debounce
@@ -236,6 +240,10 @@ class Wires(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
+            # wait until toggles are defused first
+            if (not toggles._defused):
+                sleep(0.1)
+                continue
             # read each wire pin and build a bitmask
             # a wire that is connected = 1, disconnected (cut) = 0
             value = 0
@@ -289,6 +297,10 @@ class Button(PhaseThread):
         self._rgb[1].value = False if self._color == "G" else True
         self._rgb[2].value = False if self._color == "B" else True
         while (self._running):
+            # wait until keypad is defused first
+            if (not keypad._defused):
+                sleep(0.1)
+                continue
             # get the pushbutton's state
             self._value = self._component.value
             # it is pressed
