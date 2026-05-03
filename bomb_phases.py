@@ -260,7 +260,9 @@ class Wires(PhaseThread):
                     self._defused = True
                 # wrong combination -> strike
                 elif (self._prev_value is not None):
-                    self._failed = True
+                    added_wires = self._value & ~self._prev_value
+                    if added_wires and (self._value & ~self._target):
+                        self._failed = True
                 self._prev_value = self._value
 
             sleep(0.1)
