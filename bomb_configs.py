@@ -1,5 +1,5 @@
 #################################
-# CSC 102 Defuse the Bomb Project
+# CSC 102 Defuse the Bomb Scavenger Hunt Project
 # Configuration file
 # Team: 
 #################################
