@@ -355,7 +355,7 @@ class Toggles(PhaseThread):
     # returns the toggle switches state as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED \nGo to ______ to find next clue"
+            return "DEFUSED\nGo to ______ to find next clue"
         else:
             # show current switch states as a 4-digit binary string
             if (self._value is not None):
