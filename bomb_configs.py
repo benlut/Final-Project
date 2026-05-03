@@ -125,5 +125,4 @@ button_target = genButtonTarget()
 # set the bomb's LCD bootup text
 boot_text = f"*Welcome to Defuse the Bomb*\n"\
             f"Serial number: {serial}\n"\
-            f"Toggles hint: Set switches to match binary 13\n"\
-            f"ON=1, OFF=0\n"
+            f"Toggles hint: Set switches to match binary 13\n"
