@@ -241,7 +241,6 @@ class Wires(PhaseThread):
     def run(self):
         self._running = True
         while (self._running):
-            print(self._value)
             # wait until toggles are defused first
             if (not self.toggles._defused):
                 sleep(0.1)
