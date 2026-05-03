@@ -126,6 +126,6 @@ keypad_target = genKeypadTarget()
 button_target = genButtonTarget()
 
 # set the bomb's LCD bootup text
-boot_text = f"*Welcome to Defuse the Bomb*\n"\
+boot_text = f"*Welcome to Defuse the Bomb Scavenger Hunt!*\n"\
             f"Serial number: {serial}\n"\
             f"Toggles hint: Set switches to match binary 13"
