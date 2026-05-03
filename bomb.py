@@ -41,7 +41,6 @@ def setup_phases():
     gui.setButton(button)
     # setup the toggle switches thread
  
-
     # start the phase threads
     timer.start()
     keypad.start()
