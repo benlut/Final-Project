@@ -1,7 +1,7 @@
 #################################
-# CSC 102 Defuse the Bomb Project
-# Main program
-# Team: 
+# CSC 102 Defuse the Bomb Scavenger Hunt Project
+# Main program: bomb.py
+# Team: Connor Timmins, Joseph Pascarella, Ben Lazarz
 #################################
 
 # import the configs
