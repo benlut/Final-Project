@@ -126,4 +126,4 @@ button_target = genButtonTarget()
 boot_text = f"*Welcome to Defuse the Bomb*\n"\
             f"Serial number: {serial}\n"\
             f"Toggles hint: Set switches to match binary 13\n"\
-            f"  ON=1, OFF=0 -> Switch 1:ON, 2:ON, 3:OFF, 4:ON\n"
+            f"ON=1, OFF=0\n"
