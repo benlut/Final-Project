@@ -268,7 +268,7 @@ class Wires(PhaseThread):
     # returns the jumper wires state as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED\nLook Under the table."
+            return "DEFUSED\nLook under the table for your next clue."
         else:
             # show the current wire states as a binary string (1=connected, 0=cut)
             if (self._value is not None):
