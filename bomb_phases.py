@@ -1,7 +1,7 @@
 #################################
-# CSC 102 Defuse the Bomb Project
+# CSC 102 Defuse the Bomb Scavenger Hunt Project
 # GUI and Phase class definitions
-# Team: 
+# Team: Connor Timmins, Joseph Pascarella, Ben Lazarz
 #################################
 
 # import the configs
