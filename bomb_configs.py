@@ -99,7 +99,7 @@ def genWiresTarget():
     return 0b10101
 
 def genKeypadTarget():
-    return "26863"
+    return "100"
 
 # generate the color of the pushbutton (which determines how to defuse the phase)
 button_color = choice(["R", "G", "B"])
