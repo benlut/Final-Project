@@ -357,7 +357,7 @@ class Toggles(PhaseThread):
     # returns the toggle switches state as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED\nYou will find your next clue where the\nrasberry pi's are stored."
+            return "DEFUSED\nYou will find your next clue where\nthe Raspberry Pis are stored."
         else:
             # show current switch states as a 4-digit binary string
             if (self._value is not None):
