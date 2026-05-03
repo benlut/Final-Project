@@ -95,7 +95,7 @@ def genTogglesTarget():
 
 def genWiresTarget():
     # wires 1, 3, and 5 should be connected (out of 5 wires)
-    # represented as a bitmask: 10101 = wire 1, 3, 5 connected
+    # 10101 = wire 1, 3, 5 connected
     return 0b10101
 
 def genKeypadTarget():
