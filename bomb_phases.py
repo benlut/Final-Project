@@ -96,7 +96,16 @@ class Lcd(Frame):
             self._bpause.destroy()
             self._bquit.destroy()
 
+        if success:
+            msg = "BOMB DEFUSED! You Win!"
+            color = "00ff00"
+        else:
+            msg = "Boom! The bomb exploded!"
+            color = "red"
+
         # reconfigure the GUI
+        self._lresult = Label(self, bg= "red", fg="white", font=("Courier New", 18), text=msg)
+        self._lresult.grid(row=0, column=0, columnspan=3, pady=60)
         # the retry button
         self._bretry = tkinter.Button(self, bg="red", fg="white", font=("Courier New", 18), text="Retry", anchor=CENTER, command=self.retry)
         self._bretry.grid(row=1, column=0, pady=40)
