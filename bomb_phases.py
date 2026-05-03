@@ -226,8 +226,7 @@ class Keypad(PhaseThread):
     # returns the keypad combination as a string
     def __str__(self):
         if (self._defused):
-            return "DEFUSED\nThe final clue will depend on the color of the button\nRed = Go to where you would meet Dr. Matt for help (It is outside the classroom)\nBlue = Go find the bulletin board where updates from around the school can be found\nGreen = Go to the physics department are and look for room 618"
-        else:
+            return "DEFUSED - Check Manual for Button Directions"
             return self._value
 
 # the jumper wires phase
