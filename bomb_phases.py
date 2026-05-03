@@ -189,17 +189,18 @@ class Timer(PhaseThread):
 
 # the keypad phase
 class Keypad(PhaseThread):
-    def __init__(self, component, target, name="Keypad"):
+    def __init__(self, component, target, wires, name="Keypad"):
         super().__init__(name, component, target)
         # the default value is an empty string
         self._value = ""
+        self.wires = wires
 
     # runs the thread
     def run(self):
         self._running = True
         while (self._running):
             # wait until wires are defused first
-            if (not wires._defused):
+            if (not self.wires._defused):
                 sleep(0.1)
                 continue
             # process keys when keypad key(s) are pressed
@@ -277,7 +278,7 @@ class Wires(PhaseThread):
 
 # the pushbutton phase
 class Button(PhaseThread):
-    def __init__(self, component_state, component_rgb, target, color, timer, name="Button"):
+    def __init__(self, component_state, component_rgb, target, color, timer, keypad, name="Button"):
         super().__init__(name, component_state, target)
         # the default value is False/Released
         self._value = False
@@ -289,6 +290,7 @@ class Button(PhaseThread):
         self._color = color
         # we need to know about the timer (7-segment display) to be able to determine correct pushbutton releases in some cases
         self._timer = timer
+        self.keypad = keypad
 
     # runs the thread
     def run(self):
@@ -299,7 +301,7 @@ class Button(PhaseThread):
         self._rgb[2].value = False if self._color == "B" else True
         while (self._running):
             # wait until keypad is defused first
-            if (not keypad._defused):
+            if (not self.keypad._defused):
                 sleep(0.1)
                 continue
             # get the pushbutton's state
