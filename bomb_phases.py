@@ -227,6 +227,7 @@ class Keypad(PhaseThread):
     def __str__(self):
         if (self._defused):
             return "DEFUSED - Check Manual for Button Directions"
+        else:
             return self._value
 
 # the jumper wires phase
