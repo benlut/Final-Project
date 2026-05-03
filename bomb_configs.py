@@ -86,7 +86,7 @@ if (RPi):
 # functions to generate targets for toggles/wires/keypad/Button
 ###########
 def genSerial():
-    return "B026DES"
+    return "B246DES"
 
 def genTogglesTarget():
     # 1101 in binary = 13 in decimal
@@ -107,12 +107,15 @@ button_color = choice(["R", "G", "B"])
 def genButtonTarget():
     global button_color
     b_target = None
-    # G is the first numeric digit in the serial number
-    if (button_color == "G"):
-        b_target = [ n for n in serial if n.isdigit() ][0]
-    # B is the last numeric digit in the serial number
+    # R - Clock must show a 2
+    if (button_color == "R"):
+        b_target = "2"
+    # G - Clock must show a 4
+    elif (button_color == "G"):
+        b_target = "4"
+    # B - Clock must show a 6
     elif (button_color == "B"):
-        b_target = [ n for n in serial if n.isdigit() ][-1]
+        b_target = "6"  
     return b_target
 
 ###############################
