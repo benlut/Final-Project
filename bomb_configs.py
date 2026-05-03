@@ -1,7 +1,7 @@
 #################################
 # CSC 102 Defuse the Bomb Scavenger Hunt Project
 # Configuration file
-# Team: 
+# Team: Connor Timmins, Joseph Pascarella, Ben Lazarz
 #################################
 
 # constants
